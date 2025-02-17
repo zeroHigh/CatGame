@@ -22,8 +22,10 @@ namespace Game
                     pointPath = "";
                     break;
                 case CatPointType.PointType.BALL:
+
                     break;
                 case CatPointType.PointType.DIAN:
+                    
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
