@@ -1,4 +1,5 @@
 using Game.Main.Cat;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game
@@ -8,8 +9,6 @@ namespace Game
         private Button _btnLeft;
         private Button _btnRight;
         private Button _btnSetting;
-        private Button _btnMsg;
-        private Button _btnShare;
         private Button _btnLevel1;
         private Button _btnLevel2;
         private Button _btnLevel3;
@@ -17,11 +16,9 @@ namespace Game
 
         protected override void ParseComponent()
         {
-            _btnLeft = Find<Button>("root/left");
-            _btnRight = Find<Button>("root/right");
-            _btnSetting = Find<Button>("root/bottom/setting");
-            _btnMsg = Find<Button>("root/bottom/message");
-            _btnShare = Find<Button>("root/bottom/share");
+            _btnLeft = Find<Button>("root/btnLeft");
+            _btnRight = Find<Button>("root/btnRight");
+            _btnSetting = Find<Button>("root/btnSetting");
 
             _btnLevel1 = Find<Button>("root/content/level1");
             _btnLevel2 = Find<Button>("root/content/level2");
@@ -62,19 +59,12 @@ namespace Game
 
         }
 
-        private void OnShareClick()
-        {
-
-        }
-
-        private void OnMsgClick()
-        {
-
-        }
-
         private void OnSettingClick()
         {
-
+            var gameView = new CatSettingPage();
+            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.SettingView));
+            gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Middle));
+            gameView.Show();
         }
 
         protected override void AddEvent()
@@ -82,8 +72,6 @@ namespace Game
             ListenButton(_btnLeft, OnLeftClick);
             ListenButton(_btnRight, OnRightClick);
             ListenButton(_btnSetting, OnSettingClick);
-            ListenButton(_btnMsg, OnMsgClick);
-            ListenButton(_btnShare, OnShareClick);
 
             ListenButton(_btnLevel1, OnLevel1Click);
             ListenButton(_btnLevel2, OnLevel2Click);
@@ -97,8 +85,6 @@ namespace Game
             UnListenButton(_btnLeft, OnLeftClick);
             UnListenButton(_btnRight, OnRightClick);
             UnListenButton(_btnSetting, OnSettingClick);
-            UnListenButton(_btnMsg, OnLeftClick);
-            UnListenButton(_btnShare, OnLeftClick);
 
             UnListenButton(_btnLevel1, OnLeftClick);
             UnListenButton(_btnLevel2, OnLeftClick);
