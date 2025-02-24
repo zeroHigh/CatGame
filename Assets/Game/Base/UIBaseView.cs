@@ -56,12 +56,6 @@ namespace Game
 
             var dynamicChildRoot = gameViewRoot.transform as RectTransform;
 
-            // if (!GlobalGameSetting.IsLandScape && GlobalGameSetting.IsNotchScreen)
-            // {
-            //     if (dynamicChildRoot != null) dynamicChildRoot.offsetMax = new Vector2(0f, -72f);
-            // }
-            // else
-            //固定横屏，不用考虑刘海
             if (dynamicChildRoot != null) dynamicChildRoot.offsetMax = Vector2.zero;
             ParseComponent();
         }
