@@ -1,6 +1,4 @@
-using System;
 using Game.Main.Cat;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -24,6 +22,7 @@ namespace Game
         protected override void ParseComponent()
         {
             _btnBg = Find<Button>("root/bg");
+            _textScore = Find<Text>("root/score");
             _buttonLock = Find<ButtonExtension>("root/btnLock");
             _buttonUnlock = Find<Button>("root/unlock");
             _buttonHome = Find<Button>("root/btnHome");
@@ -43,6 +42,11 @@ namespace Game
         public void ChangeCount()
         {
             LastCount = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.COUNT_SETTINGS, 1);
+        }
+
+        public void UpdateScore(int score)
+        {
+            _textScore.text = score.ToString();
         }
 
         public void CreatePoint()

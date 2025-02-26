@@ -20,7 +20,7 @@ namespace Game
         protected override void Refresh(params object[] arg)
         {
             _pointId = (int)arg[0];
-            _speed = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, 1);
+            UpdateSpeed();
             GameStart.Instance.StartCoroutine(MoveSmoothly());
         }
 
@@ -63,9 +63,9 @@ namespace Game
             }
         }
 
-        public void ChangeSpeed()
+        public void UpdateSpeed()
         {
-            _speed = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, 1);
+            _speed = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, 1) * 1.5f;
         }
 
         protected override void AddEvent()
@@ -80,7 +80,6 @@ namespace Game
 
         private void OnPointClick()
         {
-            Debug.LogError("Point");
             CatGameManager.Instance.RemovePoint(_pointId);
             Dispose();
         }

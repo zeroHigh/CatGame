@@ -12,6 +12,7 @@ namespace Game
         private Coroutine _timerCoroutine;
         private bool _isGameRunning;
         private CatMainView _catMainView;
+        private int _score;
 
         public int AddPoint(CatPointView pointView)
         {
@@ -39,6 +40,8 @@ namespace Game
             if (_catPointViews.Keys.Contains(id))
             {
                 _catPointViews.Remove(id);
+                _score++;
+                _catMainView?.UpdateScore(_score);
             }
         }
 
@@ -61,23 +64,6 @@ namespace Game
             _timerCoroutine = null;
         }
 
-        public void ChangeSpeed()
-        {
-            if (_catPointViews != null)
-            {
-                foreach (var item in _catPointViews)
-                {
-                    item.Value.ChangeSpeed();
-                }
-            }
-        }
-
-        public void ChangeCount()
-        {
-            _catMainView?.ChangeCount();
-        }
-
-
         private IEnumerator RepeatCoroutineTimer()
         {
             while (_isGameRunning) // 无限循环
@@ -94,6 +80,22 @@ namespace Game
             {
                 _catMainView.CreatePoint();
             }
+        }
+
+        public void ChangeSpeed()
+        {
+            if (_catPointViews != null)
+            {
+                foreach (var item in _catPointViews)
+                {
+                    item.Value.UpdateSpeed();
+                }
+            }
+        }
+
+        public void ChangeCount()
+        {
+            _catMainView?.ChangeCount();
         }
     }
 }
