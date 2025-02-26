@@ -10,7 +10,7 @@ namespace Game
         public void StartGame()
         {
             // 数据请求等
-            // CatDataManager.Instance.RequestSpeedCarInfo("Test", b =>
+            // CatGameManager.Instance.RequestSpeedCarInfo("Test", b =>
             // {
             //     // StartRealGame(ModuleType.SpeedCar);
             //     StartRealGame(ModuleType.AdventureIsland);

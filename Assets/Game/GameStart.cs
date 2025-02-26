@@ -17,7 +17,6 @@ namespace Game
         public void Awake()
         {
             Instance = this;
-
             WindowManager.Instance.Init(transform);
             InitLoader();
             // ResUtils.Instance.SetScreenRotation();
@@ -110,18 +109,7 @@ namespace Game
                 };
                 ResourceLoader.Instance.UnloadPreBundle(bundler);
             }
-        }
-
-        public void OnApplicationPause(bool pause)
-        {
-            //TODO 暂停
-        }
-
-        public void OnApplicationFocus(bool focus)
-        {
-            if (!Global.IsMobile)
-                return;
-            // TODO 继续
+            CatGameManager.Instance.ExitGame();
         }
     }
 }

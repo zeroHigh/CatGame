@@ -1,24 +1,29 @@
 using System;
 using Game.Main.Cat;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Game
 {
     public class CatMainView : UIBaseView
     {
         private CatPointType.PointType _pointType;
+        private string _pointPath;
         private Text _textScore;
+        private Button _btnBg;
         private ButtonExtension _buttonLock;
         private Button _buttonUnlock;
         private Button _buttonHome;
         private Button _buttonSetting;
         private Transform _content;
-
+        public int LastCount;
 
 
         protected override void ParseComponent()
         {
+            _btnBg = Find<Button>("root/bg");
             _buttonLock = Find<ButtonExtension>("root/btnLock");
             _buttonUnlock = Find<Button>("root/unlock");
             _buttonHome = Find<Button>("root/btnHome");
@@ -29,13 +34,37 @@ namespace Game
         protected override void Refresh(params object[] arg)
         {
             _pointType = (CatPointType.PointType)arg[0];
-            var path = SharePathUtils.GetSkinPath(_pointType);
-            var skin = ResourceLoader.Instance.LoadObject(path);
-            var tt = skin.transform.GetComponent<RectTransform>();
-            tt.SetParent(_content, false);
-            tt.localPosition = Vector2.zero;
-            tt.localEulerAngles = Vector3.zero;
-            tt.localScale = Vector3.one;
+            _pointPath = SharePathUtils.GetSkinPath(_pointType);
+            ChangeCount();
+            CatGameManager.Instance.StartGame(this);
+            CreatePoint();
+        }
+
+        public void ChangeCount()
+        {
+            LastCount = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.COUNT_SETTINGS, 1);
+        }
+
+        public void CreatePoint()
+        {
+            var skin = ResourceLoader.Instance.LoadObject(_pointPath);
+            var catPoint = skin.transform.GetComponent<RectTransform>();
+            catPoint.SetParent(_content, false);
+            catPoint.localPosition = RandomPointIn();
+            catPoint.localEulerAngles = Vector3.zero;
+            catPoint.localScale = Vector3.one;
+
+            var catPointView = new CatPointView();
+            var id = CatGameManager.Instance.AddPoint(catPointView);
+            catPointView.SetDisplayObject(skin);
+            catPointView.Show(id);
+        }
+
+        private Vector2 RandomPointIn()
+        {
+            var startX = Random.Range(-500, 500);
+            var startY = Random.Range(-200, 200);
+            return new Vector2(startX, startY);
         }
 
         private void OnLockClick()
@@ -60,6 +89,7 @@ namespace Game
             gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
             gameView.Show();
+            CatGameManager.Instance.ExitGame();
             Dispose();
         }
 
@@ -73,18 +103,20 @@ namespace Game
 
         protected override void AddEvent()
         {
-            _buttonLock.onLongPress.AddListener(OnLockClick);
+            ListenButton(_buttonLock, OnLockClick);
             ListenButton(_buttonUnlock, OnUnlockClick);
             ListenButton(_buttonHome, OnHomeClick);
             ListenButton(_buttonSetting, OnSettingClick);
+            ListenButton(_btnBg, OnUnlockClick);
         }
 
         protected override void RemoveEvent()
         {
-            _buttonLock.onLongPress.RemoveAllListeners();
+            UnListenButton(_buttonLock, OnLockClick);
             UnListenButton(_buttonUnlock, OnUnlockClick);
             UnListenButton(_buttonHome, OnHomeClick);
             UnListenButton(_buttonSetting, OnSettingClick);
+            UnListenButton(_btnBg, OnUnlockClick);
         }
 
 

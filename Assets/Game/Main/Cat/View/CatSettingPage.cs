@@ -12,6 +12,8 @@ namespace Game
         private Slider _sliderSpeed;
         private Text _textCount;
         private Text _textSpeed;
+        private int _curSpeed;
+        private int _curCount;
 
         protected override void ParseComponent()
         {
@@ -36,12 +38,12 @@ namespace Game
             {
                 _textSpeed.text = s.ToString(CultureInfo.InvariantCulture);
             });
-            var lastCount = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.COUNT_SETTINGS, 1);
-            var lastSpeed = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, 1);
-            _sliderCount.value = lastCount;
-            _sliderSpeed.value = lastSpeed;
-            _textCount.text = lastCount.ToString();
-            _textSpeed.text = lastSpeed.ToString();
+            _curCount = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.COUNT_SETTINGS, 1);
+            _curSpeed = PlayerPrefs.GetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, 1);
+            _sliderCount.value = _curCount;
+            _sliderSpeed.value = _curSpeed;
+            _textCount.text = _curCount.ToString();
+            _textSpeed.text = _curSpeed.ToString();
         }
 
         protected override void AddEvent()
@@ -64,6 +66,8 @@ namespace Game
         {
             PlayerPrefs.SetInt(GlobalGameSetting.SettingsKey.COUNT_SETTINGS, (int)_sliderCount.value);
             PlayerPrefs.SetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, (int)_sliderSpeed.value);
+            CatGameManager.Instance.ChangeSpeed();
+            CatGameManager.Instance.ChangeCount();
             Dispose();
         }
     }
