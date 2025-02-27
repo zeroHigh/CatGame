@@ -15,8 +15,8 @@ namespace Game
         {
             switch (type)
             {
-                case CatPointType.PointType.FISH:
-                    return "Assets/Function/Prefab/skin/fish";
+                case CatPointType.PointType.BUTTERFLY:
+                    return "Assets/Function/Prefab/skin/butterfly";
                 case CatPointType.PointType.BALL:
                     return "Assets/Function/Prefab/skin/ball";
                 case CatPointType.PointType.DIAN:

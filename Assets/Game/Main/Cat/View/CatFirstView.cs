@@ -27,7 +27,7 @@ namespace Game
 
         private void OnLevel1Click()
         {
-            GoMainPageView(CatPointType.PointType.FISH);
+            GoMainPageView(CatPointType.PointType.BUTTERFLY);
         }
 
         private void OnLevel2Click()
