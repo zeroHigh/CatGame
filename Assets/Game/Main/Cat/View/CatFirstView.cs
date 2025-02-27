@@ -32,7 +32,7 @@ namespace Game
 
         private void OnLevel2Click()
         {
-            GoMainPageView(CatPointType.PointType.BALL);
+            GoMainPageView(CatPointType.PointType.FISH);
         }
 
         private void OnLevel3Click()
