@@ -7,14 +7,16 @@ namespace Game
     public class CatPointView: UIBaseView
     {
         private Button _btnPoint;
+        private GameObject _pointEnd;
         private int _pointId;
         private float _speed; // 增加速度以获得更加丝滑的运动
         private Vector3 _targetPosition;
 
         protected override void ParseComponent()
         {
-            _btnPoint = transform.GetComponent<Button>();
-            transform.GetComponent<Image>().SetNativeSize();
+            _btnPoint = Find<Button>("point");
+            Find<Image>("point").SetNativeSize();
+            _pointEnd = Find("pointEnd");
         }
 
         protected override void Refresh(params object[] arg)
@@ -80,6 +82,14 @@ namespace Game
         private void OnPointClick()
         {
             CatGameManager.Instance.RemovePoint(_pointId);
+            _btnPoint.gameObject.SetActive(false);
+            _pointEnd.SetActive(true);
+            GameStart.Instance.StartCoroutine(DelayDestroy());
+        }
+
+        private IEnumerator DelayDestroy()
+        {
+            yield return new WaitForSeconds(0.2f);
             Dispose();
         }
     }
