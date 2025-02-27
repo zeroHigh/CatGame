@@ -26,25 +26,22 @@ namespace Game
 
         private IEnumerator MoveSmoothly()
         {
-            while (CatGameManager.Instance.IsGameRunning())
+            while (CatGameManager.Instance.IsGameRunning() && transform != null)
             {
-                if (!CatGameManager.Instance.IsGameRunning() || transform == null)
-                {
-                    yield break;
-                }
+                _targetPosition = (Vector2)transform.position + Random.insideUnitCircle.normalized * 5.0f;
+                float distance = Vector2.Distance(transform.position, _targetPosition);
 
-                _targetPosition = transform.position + new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), 0).normalized * 2.0f;
-                var distance = Vector3.Distance(transform.position, _targetPosition);
-                while (distance > 0.1f)
+                while (distance > 0.1f && CatGameManager.Instance.IsGameRunning() && transform != null)
                 {
                     CheckCollision();
-                    if (!CatGameManager.Instance.IsGameRunning() || transform == null)
-                    {
-                        yield break;
-                    }
-                    transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
-                    distance = Vector3.Distance(transform.position, _targetPosition);
-                    yield return null; // 减少 WaitForSeconds() 的间隔
+                    transform.position = Vector2.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
+                    distance = Vector2.Distance(transform.position, _targetPosition);
+
+                    // 计算旋转角度
+                    float angle = Mathf.Atan2(_targetPosition.y - transform.position.y, _targetPosition.x - transform.position.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * 2f);
+
+                    yield return new WaitForEndOfFrame(); // 确保在每一帧结束时执行
                 }
 
                 yield return new WaitForSeconds(Random.Range(0.1f, 0.2f)); // 缩短移动间隔时间
