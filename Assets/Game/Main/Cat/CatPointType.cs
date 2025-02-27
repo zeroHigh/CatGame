@@ -4,7 +4,7 @@ namespace Game.Main.Cat
     {
         public enum PointType
         {
-            FISH = 1,
+            BUTTERFLY = 1,
             BALL = 2,
             DIAN
         }
