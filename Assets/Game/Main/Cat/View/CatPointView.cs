@@ -39,7 +39,9 @@ namespace Game
 
                     // 计算旋转角度
                     float angle = Mathf.Atan2(_targetPosition.y - transform.position.y, _targetPosition.x - transform.position.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * 2f);
+                    angle += -90f;
+                    // 直接设置旋转角度，而不是使用插值
+                    transform.rotation = Quaternion.Euler(0, 0, angle);
 
                     yield return new WaitForEndOfFrame(); // 确保在每一帧结束时执行
                 }
