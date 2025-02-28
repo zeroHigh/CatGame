@@ -37,11 +37,10 @@ namespace Game
 
         private void CreateGameView()
         {
-            var catLoadingView = new CatLoadingView();
-            catLoadingView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.LoadingView));
-            var par = WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom);
-            catLoadingView.SetParent(par);
-            catLoadingView.Show();
+            var gameView = new CatFirstView();
+            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
+            gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
+            gameView.Show();
         }
 
         private void LoadAssetBundle(string name, Action<bool> callback)

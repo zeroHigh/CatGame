@@ -668,19 +668,48 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1628471372673617648, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1628471372673617648, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960914661320679779, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960914661320679779, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: InitialModule.gravitySource
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2980132153880980266, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
       propertyPath: m_Name
       value: butterfly
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197217824464831800, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4374510571401125176, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7504864793468112778, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504864793468112778, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8793849341911963887, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4197217824464831800, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2658020225896028528, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
     - {fileID: 5784090328832970549, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
