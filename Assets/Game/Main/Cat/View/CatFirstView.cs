@@ -1,5 +1,3 @@
-using Game.Main.Cat;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game

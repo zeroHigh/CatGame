@@ -7,24 +7,68 @@ namespace Game
     public class CatPointView: UIBaseView
     {
         private Button _btnPoint;
+        private GameObject _pointStart;
         private GameObject _pointEnd;
         private int _pointId;
         private float _speed; // 增加速度以获得更加丝滑的运动
         private Vector3 _targetPosition;
+
+        private Animator _animatorPointStar;
+        private Animator _animatorPointEnd;
+
+        //手动调整动画速度
+        private const float SpeedPoint = 0.5f;
+        private const float SpeedPointStart = 0.5f;
+        private const float SpeedPointEnd = 0.5f;
 
         protected override void ParseComponent()
         {
             _btnPoint = Find<Button>("point");
             Find<Image>("point").SetNativeSize();
             _pointEnd = Find("pointEnd");
+            _pointStart = Find("pointStart");
+
+            _btnPoint.gameObject.GetComponent<Animator>().speed = SpeedPoint;
+            _animatorPointStar = _pointStart.GetComponent<Animator>();
+            _animatorPointStar.speed = SpeedPointStart;
+            _animatorPointEnd = _pointEnd.GetComponent<Animator>();
+            _animatorPointEnd.speed = SpeedPointEnd;
         }
 
         protected override void Refresh(params object[] arg)
         {
             _pointId = (int)arg[0];
             UpdateSpeed();
+            GameStart.Instance.StartCoroutine(WaitForPointStartFinish());
+        }
+
+        IEnumerator WaitForPointStartFinish()
+        {
+            _pointStart.SetActive(true);
+            // 等待动画播放完成
+            while (transform == null || _animatorPointStar.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            {
+                yield return null;
+            }
+            // 在这里处理动画播放完成后的逻辑
+            _btnPoint.gameObject.SetActive(true);
+            _pointStart.SetActive(false);
             GameStart.Instance.StartCoroutine(MoveSmoothly());
         }
+
+        IEnumerator WaitForPointEndFinish()
+        {
+            _pointEnd.SetActive(true);
+            // 等待动画播放完成
+            while (transform == null || _animatorPointEnd.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            {
+
+                yield return null;
+            }
+            // 在这里处理动画播放完成后的逻辑
+            Dispose();
+        }
+
 
         private IEnumerator MoveSmoothly()
         {
@@ -83,14 +127,9 @@ namespace Game
         {
             CatGameManager.Instance.RemovePoint(_pointId);
             _btnPoint.gameObject.SetActive(false);
-            _pointEnd.SetActive(true);
-            GameStart.Instance.StartCoroutine(DelayDestroy());
-        }
 
-        private IEnumerator DelayDestroy()
-        {
-            yield return new WaitForSeconds(0.2f);
-            Dispose();
+            GameStart.Instance.StartCoroutine(WaitForPointEndFinish());
+
         }
     }
 }

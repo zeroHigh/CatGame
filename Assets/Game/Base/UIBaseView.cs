@@ -74,6 +74,18 @@ namespace Game
             Refresh(arg);
         }
 
+        public virtual void SelfShow(params object[] arg)
+        {
+            if (DisplayObject == null)
+                return;
+            if (!IsShow)
+            {
+                IsShow = true;
+                AddEvent();
+            }
+            Refresh(arg);
+        }
+
         protected virtual void Refresh(params object[] arg)
         {
         }

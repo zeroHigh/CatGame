@@ -672,12 +672,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: butterfly
       objectReference: {fileID: 0}
+    - target: {fileID: 4374510571401125176, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8793849341911963887, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2658020225896028528, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
+    - {fileID: 5784090328832970549, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 338389e2c55f54250b440c2b54c8be82, type: 3}
@@ -800,6 +806,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3138013432584124843}
     m_Modifications:
+    - target: {fileID: 1613228209302213241, guid: a68d7a08dcafd4a95bb0666e5112e7d6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2545537896569646193, guid: a68d7a08dcafd4a95bb0666e5112e7d6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -893,7 +903,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 410484159855886165, guid: a68d7a08dcafd4a95bb0666e5112e7d6, type: 3}
+    - {fileID: 6833747105246805792, guid: a68d7a08dcafd4a95bb0666e5112e7d6, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a68d7a08dcafd4a95bb0666e5112e7d6, type: 3}
@@ -1103,6 +1115,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3370125485826059089, guid: f7bb2153383a041cd9db50a818521817, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5582781591636371924, guid: f7bb2153383a041cd9db50a818521817, type: 3}
       propertyPath: m_Name
       value: fish
@@ -1120,7 +1136,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7397255776834845081, guid: f7bb2153383a041cd9db50a818521817, type: 3}
+    - {fileID: 7484671551441520411, guid: f7bb2153383a041cd9db50a818521817, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7bb2153383a041cd9db50a818521817, type: 3}

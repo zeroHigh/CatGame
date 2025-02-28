@@ -1,4 +1,4 @@
-namespace Game.Main.Cat
+namespace Game
 {
     public static class CatPointType
     {

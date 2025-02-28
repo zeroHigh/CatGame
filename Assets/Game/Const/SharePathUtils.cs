@@ -1,6 +1,3 @@
-using System;
-using Game.Main.Cat;
-
 namespace Game
 {
     public static class SharePathUtils
