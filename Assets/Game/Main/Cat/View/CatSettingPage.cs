@@ -29,6 +29,8 @@ namespace Game
 
         protected override void Refresh(params object[] arg)
         {
+            AdMobManager.Instance.LoadAdBanner();
+
             _sliderCount.onValueChanged.AddListener((s) =>
             {
                 _textCount.text = s.ToString(CultureInfo.InvariantCulture);
@@ -69,6 +71,12 @@ namespace Game
             CatGameManager.Instance.ChangeSpeed();
             CatGameManager.Instance.ChangeCount();
             Dispose();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            AdMobManager.Instance.DestroyAdBanner();
         }
     }
 }

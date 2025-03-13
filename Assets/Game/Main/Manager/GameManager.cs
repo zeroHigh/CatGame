@@ -37,6 +37,7 @@ namespace Game
 
         private void CreateGameView()
         {
+            AdMobManager.Instance.LoadAdBanner();
             var gameView = new CatFirstView();
             gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));

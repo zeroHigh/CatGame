@@ -19,6 +19,7 @@ namespace Game
             Instance = this;
             WindowManager.Instance.Init(transform);
             AudioManager.Instance.Init(transform);
+            AdMobManager.Instance.Init();
             InitLoader();
             // ResUtils.Instance.SetScreenRotation();
             WindowManager.Instance.AdjustScreenFit();
