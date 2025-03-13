@@ -18,6 +18,7 @@ namespace Game
         {
             Instance = this;
             WindowManager.Instance.Init(transform);
+            AudioManager.Instance.Init(transform);
             InitLoader();
             // ResUtils.Instance.SetScreenRotation();
             WindowManager.Instance.AdjustScreenFit();
@@ -94,6 +95,7 @@ namespace Game
 
         public void Update()
         {
+            AudioManager.Instance.Update();
             if(UseAssetBundle)
                 ResourceLoader.Instance.Update();
         }
@@ -109,6 +111,7 @@ namespace Game
                 };
                 ResourceLoader.Instance.UnloadPreBundle(bundler);
             }
+            AudioManager.Instance.StopAllAudio();
             CatGameManager.Instance.ExitGame();
         }
     }

@@ -72,6 +72,7 @@ namespace Game
 
         private void OnLockClick()
         {
+            PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             _buttonLock.gameObject.SetActive(false);
             _buttonUnlock.gameObject.SetActive(true);
             _buttonHome.gameObject.SetActive(true);
@@ -80,6 +81,7 @@ namespace Game
 
         private void OnUnlockClick()
         {
+            PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             _buttonLock.gameObject.SetActive(true);
             _buttonUnlock.gameObject.SetActive(false);
             _buttonHome.gameObject.SetActive(false);
@@ -88,6 +90,7 @@ namespace Game
 
         private void OnHomeClick()
         {
+            PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             var gameView = new CatFirstView();
             gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
@@ -98,10 +101,27 @@ namespace Game
 
         private void OnSettingClick()
         {
+            PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             var gameView = new CatSettingPage();
             gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.SettingView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Middle));
             gameView.Show();
+        }
+
+        private void OnBgClick()
+        {
+            if (_buttonLock.gameObject.activeSelf)
+            {
+                PlayCommonAudio(SharePathUtils.Audio.AudioMiss);
+            }
+            else
+            {
+                PlayCommonAudio(SharePathUtils.Audio.BtnClick);
+                _buttonLock.gameObject.SetActive(true);
+                _buttonUnlock.gameObject.SetActive(false);
+                _buttonHome.gameObject.SetActive(false);
+                _buttonSetting.gameObject.SetActive(false);
+            }
         }
 
         protected override void AddEvent()
@@ -110,7 +130,7 @@ namespace Game
             ListenButton(_buttonUnlock, OnUnlockClick);
             ListenButton(_buttonHome, OnHomeClick);
             ListenButton(_buttonSetting, OnSettingClick);
-            ListenButton(_btnBg, OnUnlockClick);
+            ListenButton(_btnBg, OnBgClick);
         }
 
         protected override void RemoveEvent()
@@ -119,7 +139,7 @@ namespace Game
             UnListenButton(_buttonUnlock, OnUnlockClick);
             UnListenButton(_buttonHome, OnHomeClick);
             UnListenButton(_buttonSetting, OnSettingClick);
-            UnListenButton(_btnBg, OnUnlockClick);
+            UnListenButton(_btnBg, OnBgClick);
         }
 
 

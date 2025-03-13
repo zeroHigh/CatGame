@@ -111,6 +111,11 @@ namespace Game
             return UnityObjectHelper.Find<T>(transform, path);
         }
 
+        protected uint PlayCommonAudio(string name, bool loop = false, Action<AudioPlayStatus> call = null)
+        {
+            var path = SharePathUtils.Audio.GetAudioPath(name);
+            return AudioManager.Instance.PlayAudio(path, loop, call);
+        }
 
         public virtual void Dispose()
         {

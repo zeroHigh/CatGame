@@ -17,9 +17,12 @@ namespace Game
         private Animator _animatorPointEnd;
 
         //手动调整动画速度
-        private const float SpeedPoint = 0.5f;
-        private const float SpeedPointStart = 0.5f;
-        private const float SpeedPointEnd = 0.5f;
+        private const float SpeedPoint = 0.3f;
+        private const float SpeedPointStart = 0.6f;
+        private const float SpeedPointEnd = 0.3f;
+
+        //当前point 是否命中
+        private bool _isHit;
 
         protected override void ParseComponent()
         {
@@ -38,6 +41,7 @@ namespace Game
         protected override void Refresh(params object[] arg)
         {
             _pointId = (int)arg[0];
+            _isHit = false;
             UpdateSpeed();
             GameStart.Instance.StartCoroutine(WaitForPointStartFinish());
         }
@@ -51,6 +55,7 @@ namespace Game
                 yield return null;
             }
             // 在这里处理动画播放完成后的逻辑
+            PlayCommonAudio(SharePathUtils.Audio.AudioStart);
             _btnPoint.gameObject.SetActive(true);
             _pointStart.SetActive(false);
             GameStart.Instance.StartCoroutine(MoveSmoothly());
@@ -72,12 +77,12 @@ namespace Game
 
         private IEnumerator MoveSmoothly()
         {
-            while (CatGameManager.Instance.IsGameRunning() && transform != null)
+            while (CatGameManager.Instance.IsGameRunning() && transform != null && !_isHit)
             {
                 _targetPosition = (Vector2)transform.position + Random.insideUnitCircle.normalized * 5.0f;
                 float distance = Vector2.Distance(transform.position, _targetPosition);
 
-                while (distance > 0.1f && CatGameManager.Instance.IsGameRunning() && transform != null)
+                while (distance > 0.1f && CatGameManager.Instance.IsGameRunning() && transform != null && !_isHit)
                 {
                     CheckCollision();
                     transform.position = Vector2.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
@@ -98,7 +103,7 @@ namespace Game
 
         private void CheckCollision()
         {
-            if(!CatGameManager.Instance.IsGameRunning() || transform == null) return;
+            if(!CatGameManager.Instance.IsGameRunning() || transform == null || _isHit) return;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, _targetPosition - transform.position, _speed * Time.deltaTime);
             if (hit.collider != null)
@@ -126,8 +131,9 @@ namespace Game
         private void OnPointClick()
         {
             CatGameManager.Instance.RemovePoint(_pointId);
+            _isHit = true;
             _btnPoint.gameObject.SetActive(false);
-
+            PlayCommonAudio(SharePathUtils.Audio.AudioEnd);
             GameStart.Instance.StartCoroutine(WaitForPointEndFinish());
 
         }
