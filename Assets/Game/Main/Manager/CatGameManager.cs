@@ -49,6 +49,7 @@ namespace Game
         public void StartGame(CatMainView mainView)
         {
             _isGameRunning = true;
+            _score = 0;
             _catMainView = mainView;
             _timerCoroutine = GameStart.Instance.StartCoroutine(RepeatCoroutineTimer());
         }

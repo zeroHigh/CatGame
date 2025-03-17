@@ -10,7 +10,7 @@ namespace Game
         private string _pointPath;
         private Text _textScore;
         private Button _btnBg;
-        private ButtonExtension _buttonLock;
+        private Button _buttonLock;
         private Button _buttonUnlock;
         private Button _buttonHome;
         private Button _buttonSetting;
@@ -22,7 +22,7 @@ namespace Game
         {
             _btnBg = Find<Button>("root/bg");
             _textScore = Find<Text>("root/score");
-            _buttonLock = Find<ButtonExtension>("root/btnLock");
+            _buttonLock = Find<Button>("root/btnLock");
             _buttonUnlock = Find<Button>("root/unlock");
             _buttonHome = Find<Button>("root/btnHome");
             _buttonSetting = Find<Button>("root/btnSetting");
@@ -91,6 +91,8 @@ namespace Game
         private void OnHomeClick()
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
+
+            AdMobManager.Instance.LoadAdBanner();
             var gameView = new CatFirstView();
             gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));

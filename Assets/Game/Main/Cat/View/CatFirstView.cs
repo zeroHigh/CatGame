@@ -44,7 +44,7 @@ namespace Game
         private void GoMainPageView(CatPointType.PointType type)
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
-            AdMobManager.Instance.DestroyAdBanner();
+            AdMobManager.Instance.HideBanner();
             var gameView = new CatMainView();
             gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.MainPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));

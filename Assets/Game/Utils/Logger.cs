@@ -17,11 +17,7 @@ namespace Game
             if (EnableLog)
             {
                 Debug.Log(info);
-#if !UNITY_EDITOR
-            UnityCallWeb.Log(info);
-#endif
             }
-
         }
 
         public static void LogWarning(string info)

@@ -5,10 +5,15 @@ namespace Game
 {
     public class AdMobManager : ILSingleton<AdMobManager>
     {
+        /// <summary>
+        /// 初始化 AdMob SDK
+        /// </summary>
         public void Init()
         {
-            // 初始化 AdMob SDK
-            MobileAds.Initialize(initStatus => { });
+            MobileAds.Initialize(initStatus =>
+            {
+                Debug.Log("Admob SDK initialized. " + initStatus);
+            });
         }
 
         #region Admob Banner
@@ -26,13 +31,11 @@ namespace Game
         /// </summary>
         private void CreateBannerView()
         {
-            Debug.Log("Creating banner view");
             if (_bannerView != null)
             {
                 DestroyAdBanner();
             }
-            // AdSize adSize = new AdSize(250, 250);
-            _bannerView = new BannerView(_adUnitId, AdSize.IABBanner, AdPosition.Bottom);
+            _bannerView = new BannerView(_adUnitId, AdSize.Banner, AdPosition.Bottom);
         }
 
         /// <summary>
@@ -40,20 +43,33 @@ namespace Game
         /// </summary>
         public void LoadAdBanner()
         {
-            // create an instance of a banner view first.
             if(_bannerView == null)
             {
                 CreateBannerView();
             }
+
             var adRequest = new AdRequest();
             Debug.Log("Loading banner ad.");
-            _bannerView.LoadAd(adRequest);
+            if (_bannerView != null)
+                _bannerView.LoadAd(adRequest);
+        }
+
+        public void HideBanner()
+        {
+            if (_bannerView != null)
+                _bannerView.Hide();
+        }
+
+        public void ShowBanner()
+        {
+            if (_bannerView != null)
+                _bannerView.Show();
         }
 
         /// <summary>
         /// Destroys the banner view.
         /// </summary>
-        public void DestroyAdBanner()
+        private void DestroyAdBanner()
         {
             if (_bannerView != null)
             {
