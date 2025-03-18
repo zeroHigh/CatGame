@@ -27,7 +27,7 @@ namespace Game
             if (DisplayObject == null)
             {
                 PrepareWindowAssetBundle();
-                var gameObject = ResourceLoader.Instance.LoadObject(windowName);
+                var gameObject = ResourceLoader.Instance.CatLoadPrefab(windowName);
                 SetDisplayObject(gameObject);
             }
             base.Show(arg);

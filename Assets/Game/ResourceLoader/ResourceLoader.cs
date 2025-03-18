@@ -65,7 +65,7 @@ namespace Game
         
         public void UnloadPreBundle(string bundlePath)
         {
-            if (string.IsNullOrEmpty(bundlePath) || !GameStart.Instance.UseAssetBundle)
+            if (string.IsNullOrEmpty(bundlePath))
             {
                 return;
             }
@@ -132,21 +132,33 @@ namespace Game
 
         #region 常见对外接口
         
-        public GameObject LoadObject(string fileName)
+        // public GameObject LoadObject(string fileName)
+        // {
+        //     GameObject obj = LoadResWithPath<GameObject>(fileName, ResType.Prefab);
+        //     if (obj != null)
+        //         return GameObject.Instantiate(obj);
+        //     return null;
+        // }
+
+        public GameObject CatLoadPrefab(string fileName)
         {
-            GameObject obj = LoadResWithPath<GameObject>(fileName, ResType.Prefab);
-            if (obj != null)
-                return GameObject.Instantiate(obj);
+            // 加载 Prefab
+            var prefab = Resources.Load<GameObject>(fileName);
+            Logger.Log("CatLoadPrefab prefab:" + prefab);
+            if (prefab != null)
+            {
+                return GameObject.Instantiate(prefab);
+            }
             return null;
         }
 
-        public Material LoadMaterial(string fileName)
-        {
-            Material material = LoadResWithPath<Material>(fileName, ResType.Material);
-            if (material != null)
-                return material;
-            return null;
-        }
+        // public Material LoadMaterial(string fileName)
+        // {
+        //     Material material = LoadResWithPath<Material>(fileName, ResType.Material);
+        //     if (material != null)
+        //         return material;
+        //     return null;
+        // }
         
         /// 加载资源，带后缀名加载
         public T LoadResByFileName<T>(string fileName) where T : Object
@@ -230,8 +242,8 @@ namespace Game
                 var downloadHandler = (DownloadHandlerAudioClip)webRequest.downloadHandler;
                 if (downloadHandler != null)
                 {
-                    //先压缩一次音频资源
                     CompressionAudioDownloadHandler(downloadHandler);
+
                     completeAction?.Invoke(downloadHandler.audioClip);
                 }
                 else
@@ -333,13 +345,14 @@ namespace Game
             var texture2D = new Texture2D(1, 1);
             texture2D.LoadImage(data);
             var resultTexture = texture2D;
-
-            //优化加载散图接口
-            var ret = Texture2DOptimizationCreate(texture2D);
-            if (ret != null)
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                resultTexture = ret;
-                GameObject.Destroy(texture2D);
+                var ret = Texture2DOptimizationCreate(texture2D);
+                if (ret != null)
+                {
+                    resultTexture = ret;
+                    GameObject.Destroy(texture2D);
+                }
             }
 
             var sp = Sprite.Create(resultTexture, new Rect(0, 0, resultTexture.width, resultTexture.height), new Vector2(0.5f, 0.5f));
@@ -538,10 +551,7 @@ namespace Game
 
         public void PrepareBundleAsync(string bundlePath, Action<string, bool> action = null)
         {
-            if(GameStart.Instance.UseAssetBundle)
-                loader.PreLoadAssetAsync(bundlePath, action);
-            else
-                action?.Invoke("local", true);
+            action?.Invoke("local", true);
         }
 
         public void InitManifestInfo(string path)
@@ -550,5 +560,7 @@ namespace Game
         }
 
         #endregion
+
+
     }
 }

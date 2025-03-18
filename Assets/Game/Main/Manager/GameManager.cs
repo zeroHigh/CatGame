@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Game
 {
@@ -9,37 +10,25 @@ namespace Game
 
         public void StartGame()
         {
-            // 数据请求等
-            // CatGameManager.Instance.RequestSpeedCarInfo("Test", b =>
-            // {
-            //     // StartRealGame(ModuleType.SpeedCar);
-            //     StartRealGame(ModuleType.AdventureIsland);
-            // });
-
+            Debug.Log("StartGame!");
             StartRealGame();
         }
 
         private void StartRealGame()
         {
-            if (GameStart.Instance.UseAssetBundle)
-            {
-                //加载对应游戏资源
-                LoadAssetBundle(_currentAbRes, b =>
-                {
-                    CreateGameView();
-                });
-            }
-            else
-            {
-                CreateGameView();
-            }
+            _currentAbRes = "function";
+            CreateGameView();
         }
 
         private void CreateGameView()
         {
-            AdMobManager.Instance.LoadAdBanner();
+            // AdMobManager.Instance.Init();
+            // AdMobManager.Instance.LoadAdBanner();
             var gameView = new CatFirstView();
-            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
+            Debug.Log("FirstPageView path = " + CatConst.FirstPageView);
+            var asa = ResourceLoader.Instance.CatLoadPrefab(CatConst.FirstPageView);
+            Debug.Log("FirstPageView obj = " + asa);
+            gameView.SetDisplayObject(asa);
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
             gameView.Show();
         }

@@ -44,9 +44,9 @@ namespace Game
         private void GoMainPageView(CatPointType.PointType type)
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
-            AdMobManager.Instance.HideBanner();
+            // AdMobManager.Instance.HideBanner();
             var gameView = new CatMainView();
-            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.MainPageView));
+            gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.MainPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
             gameView.Show(type);
             Dispose();
@@ -66,7 +66,7 @@ namespace Game
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             var gameView = new CatSettingPage();
-            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.SettingView));
+            gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.SettingView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Middle));
             gameView.Show();
         }

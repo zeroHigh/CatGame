@@ -7,8 +7,6 @@ namespace Game
 {
     public class GameStart : MonoBehaviour
     {
-        [Tooltip("是否用AB模型跑游戏")]
-        public bool UseAssetBundle;
         public static string AbRoot { get; private set; }
         public static string WritablePath { get; private set; }
 
@@ -17,57 +15,42 @@ namespace Game
         public void Awake()
         {
             Instance = this;
+            AbRoot = Application.streamingAssetsPath + "/";
             WindowManager.Instance.Init(transform);
             AudioManager.Instance.Init(transform);
-            AdMobManager.Instance.Init();
-            InitLoader();
             // ResUtils.Instance.SetScreenRotation();
             WindowManager.Instance.AdjustScreenFit();
             DontDestroyOnLoad(gameObject);
-            AbRoot = Application.streamingAssetsPath + "/";
-
+            InitLoader();
 #if !UNITY_EDITOR
             WritablePath = Application.streamingAssetsPath + "/";
 #else
-            UseAssetBundle = false;
-            if (UseAssetBundle)
-                WritablePath = Application.streamingAssetsPath + "/";
-            else
-                WritablePath = Application.dataPath.Replace("Assets", string.Empty);
+            WritablePath = Application.dataPath.Replace("Assets", string.Empty);
 #endif
-
-            if (UseAssetBundle)
-            {
-                StartLoad();
-            }
-            else
-            {
-                StartCoroutine(OnGameSwordStart());
-            }
+            StartCoroutine(OnGameSwordStart());
         }
 
         private void InitLoader()
         {
-            BaseLoader loader;
-            if (UseAssetBundle)
-                loader = new AssetBundleLoader(AbRoot);
-            else
-                loader = new DefaultResLoader();
+            BaseLoader loader = new DefaultResLoader();
             ResourceLoader.Instance.Init(loader);
             ResourceLoader.Instance.writablePath = WritablePath;
             ResourceLoader.Instance.AddSearchPath("Assets/");
-            ResourceLoader.Instance.AddSearchPath("Assets/CommonShare");
+            ResourceLoader.Instance.AddSearchPath("Assets/Common");
+            ResourceLoader.Instance.AddSearchPath("Assets/Function");
         }
 
         private void StartLoad()
         {
+            Debug.Log("StartLoad!");
             StartCoroutine(LoadData());
         }
 
         private IEnumerator LoadData()
         {
+            Debug.Log("LoadData!");
             var isLoadCommon = false;
-            LoadAssetBundle("commonshare", delegate(bool b)
+            LoadAssetBundle("common", delegate(bool b)
             {
                 isLoadCommon = b;
             });
@@ -90,28 +73,17 @@ namespace Game
             yield return new WaitForEndOfFrame();
             Canvas.ForceUpdateCanvases();
             yield return new WaitForEndOfFrame();
-
             GameManager.Instance.StartGame();
         }
 
         public void Update()
         {
             AudioManager.Instance.Update();
-            if(UseAssetBundle)
-                ResourceLoader.Instance.Update();
         }
 
         public void OnDestroy()
         {
             Logger.LogWarning("[GameWorld.OnDestroy() => OnDestroy called....]");
-            if (UseAssetBundle)
-            {
-                var bundler = new List<string>
-                {
-                    "commonshare"
-                };
-                ResourceLoader.Instance.UnloadPreBundle(bundler);
-            }
             AudioManager.Instance.StopAllAudio();
             CatGameManager.Instance.ExitGame();
         }

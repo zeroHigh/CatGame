@@ -4,7 +4,7 @@ namespace Game
     {
         public static string GetGamePrefabView(string name)
         {
-            return "Assets/Function/Prefab/" + name;
+            return "Function/Prefab/" + name;
         }
 
 
@@ -13,11 +13,11 @@ namespace Game
             switch (type)
             {
                 case CatPointType.PointType.BUTTERFLY:
-                    return "Assets/Function/Prefab/skin/butterfly";
+                    return "Function/Prefab/skin/butterfly";
                 case CatPointType.PointType.FISH:
-                    return "Assets/Function/Prefab/skin/fish";
+                    return "Function/Prefab/skin/fish";
                 case CatPointType.PointType.DIAN:
-                    return "Assets/Function/Prefab/skin/dian";
+                    return "Function/Prefab/skin/dian";
                 default:
                     return "No Skin";
             }
@@ -32,7 +32,7 @@ namespace Game
 
             public static string GetAudioPath(string audioName)
             {
-                return "Assets/Common/audio/" + audioName;
+                return "Common/audio/" + audioName;
             }
         }
 

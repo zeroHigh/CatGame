@@ -50,7 +50,7 @@ namespace Game
 
         public void CreatePoint()
         {
-            var skin = ResourceLoader.Instance.LoadObject(_pointPath);
+            var skin = ResourceLoader.Instance.CatLoadPrefab(_pointPath);
             var catPoint = skin.transform.GetComponent<RectTransform>();
             catPoint.SetParent(_content, false);
             catPoint.localPosition = RandomPointIn();
@@ -92,9 +92,9 @@ namespace Game
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
 
-            AdMobManager.Instance.LoadAdBanner();
+            // AdMobManager.Instance.LoadAdBanner();
             var gameView = new CatFirstView();
-            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.FirstPageView));
+            gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.FirstPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
             gameView.Show();
             CatGameManager.Instance.ExitGame();
@@ -105,7 +105,7 @@ namespace Game
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             var gameView = new CatSettingPage();
-            gameView.SetDisplayObject(ResourceLoader.Instance.LoadObject(CatConst.SettingView));
+            gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.SettingView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Middle));
             gameView.Show();
         }
