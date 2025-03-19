@@ -13,11 +13,9 @@ namespace Game
         private readonly string windowName;
         public WindowLayer Layer { get; protected set; }
         public uint WindowId { get; }
-        protected string windowPrepareABName;
 
         protected UIWindowBase(uint windowId, string windowName)
         {
-            windowPrepareABName = "";
             WindowId = windowId;
             this.windowName = windowName;
         }
@@ -26,30 +24,12 @@ namespace Game
         {
             if (DisplayObject == null)
             {
-                PrepareWindowAssetBundle();
                 var gameObject = ResourceLoader.Instance.CatLoadPrefab(windowName);
                 SetDisplayObject(gameObject);
             }
             base.Show(arg);
         }
 
-        protected void PrepareWindowAssetBundle()
-        {
-            if (!string.IsNullOrEmpty(windowPrepareABName))
-                ResourceLoader.Instance.PrepareBundle(windowPrepareABName);
-        }
-
-        protected void UnPrepareWindowAssetBundle()
-        {
-            if (!string.IsNullOrEmpty(windowPrepareABName))
-                ResourceLoader.Instance.UnloadPreBundle(windowPrepareABName);
-        }
-
-        public override void Dispose()
-        {
-            UnPrepareWindowAssetBundle();
-            base.Dispose();
-        }
 
         public virtual bool Stack()
         {
