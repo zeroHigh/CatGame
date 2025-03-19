@@ -131,20 +131,10 @@ namespace Game
         #endregion
 
         #region 常见对外接口
-        
-        // public GameObject LoadObject(string fileName)
-        // {
-        //     GameObject obj = LoadResWithPath<GameObject>(fileName, ResType.Prefab);
-        //     if (obj != null)
-        //         return GameObject.Instantiate(obj);
-        //     return null;
-        // }
 
         public GameObject CatLoadPrefab(string fileName)
         {
-            // 加载 Prefab
             var prefab = Resources.Load<GameObject>(fileName);
-            Logger.Log("CatLoadPrefab prefab:" + prefab);
             if (prefab != null)
             {
                 return GameObject.Instantiate(prefab);
@@ -152,14 +142,6 @@ namespace Game
             return null;
         }
 
-        // public Material LoadMaterial(string fileName)
-        // {
-        //     Material material = LoadResWithPath<Material>(fileName, ResType.Material);
-        //     if (material != null)
-        //         return material;
-        //     return null;
-        // }
-        
         /// 加载资源，带后缀名加载
         public T LoadResByFileName<T>(string fileName) where T : Object
         {

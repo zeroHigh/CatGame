@@ -25,10 +25,10 @@ namespace Game
 
         public static class Audio
         {
-            public const string BtnClick = "btnClick.mp3";
-            public const string AudioEnd = "end.mp3";
-            public const string AudioMiss = "miss.mp3";
-            public const string AudioStart = "start.mp3";
+            public const string BtnClick = "btnClick";
+            public const string AudioEnd = "end";
+            public const string AudioMiss = "miss";
+            public const string AudioStart = "start";
 
             public static string GetAudioPath(string audioName)
             {

@@ -17,8 +17,7 @@ namespace Game
             Instance = this;
             AbRoot = Application.streamingAssetsPath + "/";
             WindowManager.Instance.Init(transform);
-            AudioManager.Instance.Init(transform);
-            // ResUtils.Instance.SetScreenRotation();
+            AudioManager.Instance.Init(gameObject);
             WindowManager.Instance.AdjustScreenFit();
             DontDestroyOnLoad(gameObject);
             InitLoader();
@@ -84,7 +83,7 @@ namespace Game
         public void OnDestroy()
         {
             Logger.LogWarning("[GameWorld.OnDestroy() => OnDestroy called....]");
-            AudioManager.Instance.StopAllAudio();
+            AudioManager.Instance.ReleaseAllAudioClips();
             CatGameManager.Instance.ExitGame();
         }
     }
