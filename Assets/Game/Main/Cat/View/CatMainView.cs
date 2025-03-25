@@ -8,6 +8,7 @@ namespace Game
     {
         private CatPointType.PointType _pointType;
         private string _pointPath;
+        private Image _mainBg;
         private Text _textScore;
         private Button _btnBg;
         private Button _buttonLock;
@@ -20,6 +21,7 @@ namespace Game
 
         protected override void ParseComponent()
         {
+            _mainBg = Find<Image>("root/bg");
             _btnBg = Find<Button>("root/bg");
             _textScore = Find<Text>("root/score");
             _buttonLock = Find<Button>("root/btnLock");
@@ -33,9 +35,29 @@ namespace Game
         {
             _pointType = (CatPointType.PointType)arg[0];
             _pointPath = SharePathUtils.GetSkinPath(_pointType);
+            InitPointBg();
             ChangeCount();
             CatGameManager.Instance.StartGame(this);
             CreatePoint();
+        }
+
+        /// <summary>
+        /// 目标匹配背景
+        /// </summary>
+        private void InitPointBg()
+        {
+            switch (_pointType)
+            {
+                case CatPointType.PointType.BUTTERFLY:
+                    _mainBg.sprite = ResourceLoader.Instance.CatLoadSprite("Common/Textures/bg/bg_2");
+                    break;
+                case CatPointType.PointType.FISH:
+                    _mainBg.sprite = ResourceLoader.Instance.CatLoadSprite("Common/Textures/bg/bg_1");
+                    break;
+                case CatPointType.PointType.DIAN:
+                    _mainBg.sprite = ResourceLoader.Instance.CatLoadSprite("Common/Textures/bg/bg_3");
+                    break;
+            }
         }
 
         public void ChangeCount()

@@ -16,8 +16,6 @@ namespace Game
             }
         }
 
-        #region 常见对外接口
-
         public GameObject CatLoadPrefab(string fileName)
         {
             var prefab = Resources.Load<GameObject>(fileName);
@@ -27,7 +25,10 @@ namespace Game
             }
             return null;
         }
-        #endregion
 
+        public Sprite CatLoadSprite(string path)
+        {
+            return Resources.Load<Sprite>(path);
+        }
     }
 }
