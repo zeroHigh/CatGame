@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game
@@ -21,6 +22,26 @@ namespace Game
             _btnLevel1 = Find<Button>("root/content/level1");
             _btnLevel2 = Find<Button>("root/content/level2");
             _btnLevel3 = Find<Button>("root/content/level3");
+
+            CreatePoint(CatPointType.PointType.BUTTERFLY, _btnLevel1.transform);
+            CreatePoint(CatPointType.PointType.FISH, _btnLevel2.transform);
+            CreatePoint(CatPointType.PointType.DIAN, _btnLevel3.transform);
+        }
+
+        private void CreatePoint(CatPointType.PointType type, Transform parent)
+        {
+            var path = SharePathUtils.GetSkinPath(type);
+            var pointObj = ResourceLoader.Instance.CatLoadPrefab(path);
+            var catPoint = pointObj.transform.GetComponent<RectTransform>();
+            catPoint.SetParent(parent, false);
+            catPoint.localPosition = Vector3.zero;
+            catPoint.localEulerAngles = Vector3.zero;
+            catPoint.localScale = Vector3.one;
+
+            var point = pointObj.transform.Find("point");
+            point.gameObject.SetActive(true);
+            point.gameObject.GetComponent<Animator>().speed = 0.3f;
+            point.gameObject.GetComponent<Image>().raycastTarget = false;
         }
 
         private void OnLevel1Click()
@@ -44,7 +65,7 @@ namespace Game
         private void GoMainPageView(CatPointType.PointType type)
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
-            // AdMobManager.Instance.HideBanner();
+            AdMobManager.Instance.HideBanner();
             var gameView = new CatMainView();
             gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.MainPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));

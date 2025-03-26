@@ -114,7 +114,7 @@ namespace Game
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
 
-            // AdMobManager.Instance.LoadAdBanner();
+            AdMobManager.Instance.LoadAdBanner();
             var gameView = new CatFirstView();
             gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.FirstPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
