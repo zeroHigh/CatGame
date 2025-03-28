@@ -29,7 +29,7 @@ namespace Game
 
         protected override void Refresh(params object[] arg)
         {
-            AdMobManager.Instance.ShowBanner();
+            // AdMobManager.Instance.ShowBanner();
 
             _sliderCount.onValueChanged.AddListener((s) =>
             {
