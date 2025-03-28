@@ -25,7 +25,7 @@ namespace Game
 
         private GameObject uiRoot;
         private float realSizeW = 1440f;
-        private float realSizeH = 900f;
+        private float realSizeH = 800f;
         private float offsetW;
         private float offsetH;
 
@@ -82,9 +82,9 @@ namespace Game
         public void AdjustScreenFit()
         {
             if(GlobalGameSetting.IsLandScape)
-                InitScreenFit(1440, 900);
+                InitScreenFit(1440, 800);
             else
-                InitScreenFit(900, 1440);
+                InitScreenFit(800, 1440);
         }
 
         public void InitScreenFit(float width, float height)
