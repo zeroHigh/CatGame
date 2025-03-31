@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class AdMobManager : ILSingleton<AdMobManager>
+    public class AdMobManager : Singleton<AdMobManager>
     {
         /// <summary>
         /// 初始化 AdMob SDK

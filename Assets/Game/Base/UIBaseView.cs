@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Game
 {
@@ -70,19 +71,6 @@ namespace Game
                 IsShow = true;
                 AddEvent();
             }
-
-            Refresh(arg);
-        }
-
-        public virtual void SelfShow(params object[] arg)
-        {
-            if (DisplayObject == null)
-                return;
-            if (!IsShow)
-            {
-                IsShow = true;
-                AddEvent();
-            }
             Refresh(arg);
         }
 
@@ -122,13 +110,14 @@ namespace Game
             RemoveEvent();
             if (allButtons != null)
             {
-                for (int i = 0; i < allButtons.Count; i++)
+                for (var i = 0; i < allButtons.Count; i++)
                     allButtons[i].onClick.RemoveAllListeners();
                 allButtons.Clear();
                 allButtons = null;
             }
 
-            UnityObjectHelper.DestroyGameObjectSafe(DisplayObject);
+            if (DisplayObject != null)
+                Object.Destroy(DisplayObject);
             DisplayObject = null;
             transform = null;
             RectTransform = null;

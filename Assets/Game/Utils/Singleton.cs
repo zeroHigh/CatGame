@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-    public class ILSingleton<T> where T : ILSingleton<T>, new()
+    public class Singleton<T> where T : Singleton<T>, new()
     {
         protected static T _instance;
         private static readonly object sysLock = new object();
@@ -44,7 +44,7 @@ namespace Game
         /// 注册单例类的回收
         /// </summary>
         /// <param name="model"></param>
-        public static void RegModel<T>(Action dispose) where T : ILSingleton<T>, new()
+        public static void RegModel<T>(Action dispose) where T : Singleton<T>, new()
         {
             _allList.Add(dispose);
         }

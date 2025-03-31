@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class CatGameManager : ILSingleton<CatGameManager>
+    public class CatGameManager : Singleton<CatGameManager>
     {
         private Dictionary<int, CatPointView> _catPointViews;
         private List<int> _catPointIds;

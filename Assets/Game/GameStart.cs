@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
@@ -17,6 +15,7 @@ namespace Game
             WindowManager.Instance.Init(transform);
             AudioManager.Instance.Init(gameObject);
             WindowManager.Instance.AdjustScreenFit();
+            
             DontDestroyOnLoad(gameObject);
             StartCoroutine(OnGameSwordStart());
         }
@@ -36,7 +35,6 @@ namespace Game
 
         public void OnDestroy()
         {
-            Logger.LogWarning("[GameWorld.OnDestroy() => OnDestroy called....]");
             AudioManager.Instance.ReleaseAllAudioClips();
             CatGameManager.Instance.ExitGame();
         }

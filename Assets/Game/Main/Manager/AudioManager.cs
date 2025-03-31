@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace Game
 {
-    public class AudioManager : ILSingleton<AudioManager>
+    public class AudioManager : Singleton<AudioManager>
     {
         private AudioSource audioSource;
 
