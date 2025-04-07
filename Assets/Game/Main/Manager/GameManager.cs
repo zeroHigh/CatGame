@@ -1,6 +1,6 @@
 namespace Game
 {
-    public class GameManager : ILSingleton<GameManager>
+    public class GameManager : Singleton<GameManager>
     {
         public void StartGame()
         {

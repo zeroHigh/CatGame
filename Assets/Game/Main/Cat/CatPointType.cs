@@ -6,7 +6,7 @@ namespace Game
         {
             BUTTERFLY = 1,
             FISH = 2,
-            DIAN
+            DIAN = 3
         }
     }
 }

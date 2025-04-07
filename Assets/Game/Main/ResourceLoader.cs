@@ -5,7 +5,7 @@ namespace Game
     /// <summary>
     /// 资源加载逻辑，可自定义具体Loader(实现IResLoader接口即可)。通过SetLoader()设置即可
     /// </summary>
-    public class ResourceLoader : ILSingleton<ResourceLoader>
+    public class ResourceLoader : Singleton<ResourceLoader>
     {
 
         protected class ResourceLoaderBehaviour : MonoBehaviour
