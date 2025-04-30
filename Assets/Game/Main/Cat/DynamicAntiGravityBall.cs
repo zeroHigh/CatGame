@@ -16,15 +16,11 @@ namespace Game
         public float energyConservation = 0.95f; // 能量守恒系数(0-1)
         public float velocityDeadZone = 0.1f;    // 速度死区阈值
 
-        [Header("调试")]
-        public bool showDebugInfo = true;
-        public Color debugRayColor = Color.cyan;
-
         private Rigidbody2D rb;
         private float lastGroundHitTime;
         private Vector2 lastGroundNormal;
-        private int splitCount = 0; // 分裂次数计数器
-        private const int maxSplitCount = 3; // 最大分裂次数
+        private const int MaxSplitCount = 4; // 最大分裂次数
+        private Transform ballParent;
 
         void Start()
         {
@@ -37,10 +33,19 @@ namespace Game
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             // 初始斜向速度
-            rb.velocity = new Vector2(
-                baseHorizontalSpeed,
-                Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y * gravityScale) * minBounceHeight)
-            );
+            if (CatGameManager.Instance.IsInitBall)
+            {
+                rb.velocity = new Vector2(
+                    baseHorizontalSpeed,
+                    Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y * gravityScale) * minBounceHeight)
+                );
+            }
+
+            // 设置碰撞层
+            gameObject.layer = LayerMask.NameToLayer("BallLayer");
+
+            //获取第一个小球父节点
+            ballParent = transform.parent.parent;
         }
 
         public float speed = 90f; // 度/秒
@@ -57,29 +62,45 @@ namespace Game
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if(IsGroundCollision(collision))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("WallGroundLayer"))
             {
-                lastGroundNormal = collision.contacts[0].normal;
-                lastGroundHitTime = Time.time;
+                Vector2 normal = collision.contacts[0].normal;
 
-                // 动态计算反重力力
-                float fallSpeed = Mathf.Max(0, -rb.velocity.y);
-                float requiredForce = CalculateDynamicForce(fallSpeed);
-
-                // 施加力（考虑碰撞法线角度）
-                Vector2 forceDir = Vector2.Reflect(Vector2.up, lastGroundNormal).normalized;
-                rb.AddForce(forceDir * requiredForce, ForceMode2D.Impulse);
-
-                if(showDebugInfo)
+                if (IsGroundCollision(normal))
                 {
-                    Debug.Log($"碰撞地面! 下落速度: {fallSpeed:F2} | 施加力: {requiredForce:F2}");
+                    lastGroundNormal = normal;
+                    lastGroundHitTime = Time.time;
+
+                    // 动态计算反重力力
+                    float fallSpeed = Mathf.Max(0, -rb.velocity.y);
+                    float requiredForce = CalculateDynamicForce(fallSpeed);
+
+                    // 施加力（考虑碰撞法线角度）
+                    Vector2 forceDir = Vector2.Reflect(Vector2.up, lastGroundNormal).normalized;
+                    rb.AddForce(forceDir * requiredForce, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    // 处理墙面碰撞
+                    rb.velocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
                 }
             }
-            else // 处理墙面碰撞
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("BallLayer"))
+            {
+                // 忽略小球之间的碰撞
+                return;
+            }
+            else // 处理其他类型的碰撞
             {
                 Vector2 normal = collision.contacts[0].normal;
                 rb.velocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
             }
+        }
+
+        bool IsGroundCollision(Vector2 normal)
+        {
+            // 通过法线方向判断是否是地面碰撞
+            return normal.y > 0.7f;
         }
 
         float CalculateDynamicForce(float fallSpeed)
@@ -97,7 +118,7 @@ namespace Game
         void MaintainHorizontalSpeed()
         {
             // 仅当水平速度足够大时才修正
-            if(Mathf.Abs(rb.velocity.x) > velocityDeadZone)
+            if (Mathf.Abs(rb.velocity.x) > velocityDeadZone)
             {
                 float sign = Mathf.Sign(rb.velocity.x);
                 rb.velocity = new Vector2(
@@ -107,26 +128,25 @@ namespace Game
             }
         }
 
-        bool IsGroundCollision(Collision2D collision)
-        {
-            // 通过法线方向和标签双重检测
-            return collision.contacts[0].normal.y > 0.7f || collision.gameObject.CompareTag("Ground");
-        }
-
         void OnMouseDown()
         {
-            if (splitCount < maxSplitCount)
+            if (int.Parse(gameObject.name) < MaxSplitCount)
             {
+                CatGameManager.Instance.UpdateBallStatus(false);
+                CatGameManager.Instance.UpdateSplitCount();
                 Split();
+            }
+            else
+            {
+                CatGameManager.Instance.UpdateScore();
+                Destroy(gameObject);
             }
             // 禁用 OnMouseDown 以避免无限递归
             enabled = false;
         }
 
-        public void Split()
+        private void Split()
         {
-            splitCount++; // 增加分裂次数计数器
-
             // 获取点击位置
             Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -134,36 +154,49 @@ namespace Game
             GameObject newBall1 = Instantiate(gameObject, clickPosition, transform.rotation);
             GameObject newBall2 = Instantiate(gameObject, clickPosition, transform.rotation);
 
+            // 确保两个小球都被正确实例化
+            if (newBall1 == null || newBall2 == null)
+            {
+                Debug.LogError("Failed to instantiate one or both new balls.");
+                return;
+            }
+
+            newBall1.name = CatGameManager.Instance.GetSplitCount().ToString();
+            newBall2.name = CatGameManager.Instance.GetSplitCount().ToString();
             // 设置父节点
-            newBall1.transform.parent = transform.parent;
-            newBall2.transform.parent = transform.parent;
+            newBall1.transform.parent = ballParent;
+            newBall2.transform.parent = ballParent;
 
             // 设置大小
             newBall1.transform.localScale = transform.localScale * 0.8f;
             newBall2.transform.localScale = transform.localScale * 0.8f;
 
             // 获取新的 Rigidbody2D 组件
-            Rigidbody2D rb1 = newBall1.GetComponent<Rigidbody2D>();
-            Rigidbody2D rb2 = newBall2.GetComponent<Rigidbody2D>();
+            var rb1 = newBall1.GetComponent<Rigidbody2D>();
+            var rb2 = newBall2.GetComponent<Rigidbody2D>();
 
-            // 施加向上的力
-            float upwardForce = 10f; // 向上的力可以根据需要调整
-            rb1.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
-            rb2.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
+            // 设置新的小球的位置
+            var upwardForce = 0.8f; // 可以根据需要调整这个值
+            var horizontalForce = 5f; // 独立控制水平方向力
 
-            // 施加向左和向右的力
-            float horizontalForce = 5f; // 水平力可以根据需要调整
-            rb1.AddForce(Vector2.left * horizontalForce, ForceMode2D.Impulse);
-            rb2.AddForce(Vector2.right * horizontalForce, ForceMode2D.Impulse);
+            upwardForce *= Random.Range(0.5f, 1.2f);
+            horizontalForce *= Random.Range(0.5f, 1.2f);
 
-            // 禁用碰撞器以防止分裂后的小球相互碰撞
-            Collider2D collider1 = newBall1.GetComponent<Collider2D>();
-            Collider2D collider2 = newBall2.GetComponent<Collider2D>();
-            collider1.enabled = false;
-            collider2.enabled = false;
+            newBall1.transform.position = clickPosition + Vector2.left;
+            newBall2.transform.position = clickPosition + Vector2.right;
+
+            rb1.AddForce(new Vector2(-horizontalForce, upwardForce), ForceMode2D.Impulse);
+            rb2.AddForce(new Vector2(horizontalForce, upwardForce), ForceMode2D.Impulse);
+
+            // 禁用 OnMouseDown 以避免无限递归
+            enabled = false;
 
             // 销毁原小球
             Destroy(gameObject);
         }
+
+
+
+
     }
 }

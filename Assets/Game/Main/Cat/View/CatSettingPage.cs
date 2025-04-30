@@ -69,7 +69,7 @@ namespace Game
             PlayerPrefs.SetInt(GlobalGameSetting.SettingsKey.COUNT_SETTINGS, (int)_sliderCount.value);
             PlayerPrefs.SetInt(GlobalGameSetting.SettingsKey.SPEED_SETTINGS, (int)_sliderSpeed.value);
             CatGameManager.Instance.ChangeSpeed();
-            CatGameManager.Instance.ChangeCount();
+            // CatGameManager.Instance.ChangeCount();
             Dispose();
         }
 

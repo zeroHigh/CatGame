@@ -66,7 +66,7 @@ namespace Game
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             AdMobManager.Instance.HideBanner();
-            var gameView = new CatMainView2();
+            var gameView = new CatMainView();
             gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.MainPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
             gameView.Show(type);

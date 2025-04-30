@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class CatPointView: UIBaseView
+    public class CatPointViewOld: UIBaseView
     {
         private Button _btnPoint;
         private GameObject _pointStart;

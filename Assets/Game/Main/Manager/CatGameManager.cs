@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,14 +6,14 @@ namespace Game
 {
     public class CatGameManager : Singleton<CatGameManager>
     {
-        private Dictionary<int, CatPointView> _catPointViews;
+        private Dictionary<int, CatPointViewOld> _catPointViews;
         private List<int> _catPointIds;
         private Coroutine _timerCoroutine;
         private bool _isGameRunning;
         private CatMainView _catMainView;
         private int _score;
 
-        public int AddPoint(CatPointView pointView)
+        public int AddPoint(CatPointViewOld pointViewOld)
         {
             if (_catPointIds == null)
             {
@@ -24,9 +23,9 @@ namespace Game
 
             if (_catPointViews == null)
             {
-                _catPointViews = new Dictionary<int, CatPointView>();
+                _catPointViews = new Dictionary<int, CatPointViewOld>();
             }
-            _catPointViews.Add(_catPointIds.Count, pointView);
+            _catPointViews.Add(_catPointIds.Count, pointViewOld);
             return _catPointIds.Count;
         }
 
@@ -45,13 +44,19 @@ namespace Game
             }
         }
 
+        public void UpdateScore()
+        {
+            _score++;
+            _catMainView?.UpdateScore(_score);
+        }
+
         //开启计时器
         public void StartGame(CatMainView mainView)
         {
             _isGameRunning = true;
             _score = 0;
             _catMainView = mainView;
-            _timerCoroutine = GameStart.Instance.StartCoroutine(RepeatCoroutineTimer());
+            // _timerCoroutine = GameStart.Instance.StartCoroutine(RepeatCoroutineTimer());
         }
 
         //游戏结束
@@ -65,23 +70,6 @@ namespace Game
             _timerCoroutine = null;
         }
 
-        private IEnumerator RepeatCoroutineTimer()
-        {
-            while (_isGameRunning) // 无限循环
-            {
-                yield return new WaitForSeconds(2f); // 等待2秒
-                JudgePoint(); // 执行任务
-            }
-        }
-
-        //判断当前目标是否需要创建
-        private void JudgePoint()
-        {
-            if (_catPointViews != null && _catPointViews.Count < _catMainView.LastCount)
-            {
-                _catMainView.CreatePoint();
-            }
-        }
 
         public void ChangeSpeed()
         {
@@ -94,9 +82,22 @@ namespace Game
             }
         }
 
-        public void ChangeCount()
+        public bool IsInitBall = true;
+        public void UpdateBallStatus(bool value)
         {
-            _catMainView?.ChangeCount();
+            IsInitBall = value;
+        }
+
+
+        private int _splitCount;
+        public void UpdateSplitCount()
+        {
+            _splitCount++;
+        }
+
+        public int GetSplitCount()
+        {
+            return _splitCount;
         }
     }
 }

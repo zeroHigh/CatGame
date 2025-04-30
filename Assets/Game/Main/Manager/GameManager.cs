@@ -16,8 +16,8 @@ namespace Game
         {
             AdMobManager.Instance.Init();
             // AdMobManager.Instance.LoadAdBanner();
-            var gameView = new CatFirstView();
-            gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.FirstPageView));
+            var gameView = new CatMainView();
+            gameView.SetDisplayObject(ResourceLoader.Instance.CatLoadPrefab(CatConst.MainPageView));
             gameView.SetParent(WindowManager.Instance.GetUIRootByLayer(WindowLayer.Bottom));
             gameView.Show();
         }
