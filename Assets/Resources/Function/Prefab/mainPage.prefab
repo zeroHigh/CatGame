@@ -230,8 +230,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -25}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 240}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2658291692773138921
 CanvasRenderer:
@@ -284,7 +284,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2000, y: 50}
+  m_Size: {x: 2000, y: 240}
   m_EdgeRadius: 0
 --- !u!1 &1759897962264906119
 GameObject:
@@ -442,8 +442,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_AnchoredPosition: {x: 10, y: 500}
+  m_SizeDelta: {x: 20, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2995042857298342633
 CanvasRenderer:
@@ -526,7 +526,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 20, y: 1080}
+  m_Size: {x: 20, y: 2080}
   m_EdgeRadius: 0
 --- !u!1 &2908138887489931790
 GameObject:
@@ -809,8 +809,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -10, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_AnchoredPosition: {x: -10, y: 500}
+  m_SizeDelta: {x: 20, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4422547930252807392
 CanvasRenderer:
@@ -893,7 +893,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 20, y: 1080}
+  m_Size: {x: 20, y: 2080}
   m_EdgeRadius: 0
 --- !u!1 &7797339457504083115
 GameObject:
@@ -1186,7 +1186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2545537896569646193, guid: b2c961c5a30e74457809907e88e0adbe, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2545537896569646193, guid: b2c961c5a30e74457809907e88e0adbe, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1204,10 +1204,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3634352756895171219, guid: b2c961c5a30e74457809907e88e0adbe, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 1484594700491848997}
     - target: {fileID: 5582781591636371924, guid: b2c961c5a30e74457809907e88e0adbe, type: 3}
       propertyPath: m_Name
       value: ball
@@ -1222,14 +1218,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2545537896569646193, guid: b2c961c5a30e74457809907e88e0adbe, type: 3}
   m_PrefabInstance: {fileID: 3674498288418505530}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1484594700491848997 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2766379751848885791, guid: b2c961c5a30e74457809907e88e0adbe, type: 3}
-  m_PrefabInstance: {fileID: 3674498288418505530}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

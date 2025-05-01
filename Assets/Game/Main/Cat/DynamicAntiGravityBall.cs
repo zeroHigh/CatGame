@@ -134,10 +134,15 @@ namespace Game
             {
                 CatGameManager.Instance.UpdateBallStatus(false);
                 CatGameManager.Instance.UpdateSplitCount();
+
+                string pathHitEffect = "Prefabs/Effects/HitParticle";
+                HitEffect(pathHitEffect);
                 Split();
             }
             else
             {
+                string pathDestroyEffect = "Prefabs/Effects/DestroyParticle";
+                HitEffect(pathDestroyEffect);
                 CatGameManager.Instance.UpdateScore();
                 Destroy(gameObject);
             }
@@ -195,7 +200,17 @@ namespace Game
             Destroy(gameObject);
         }
 
+        private void HitEffect(string path)
+        {
+            Debug.Log("hit effect played!!");
+            Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+            GameObject hitParticle = (GameObject)Instantiate(Resources.Load(path));
+            hitParticle.transform.SetParent(GameObject.Find("BottomRoot").transform);
+            hitParticle.transform.position = clickPosition;
+            hitParticle.transform.localScale = new Vector3(1, 1, 1);
+            hitParticle.GetComponent<ParticleSystem>().Play();
+        }
 
 
     }
