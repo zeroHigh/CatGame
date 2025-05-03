@@ -132,9 +132,7 @@ namespace Game
 
         void OnMouseDown()
         {
-            //点击粒子相关
-            var pathDestroyEffect = "Prefabs/Effects/DestroyParticle";
-            HitEffect(pathDestroyEffect);
+
             // 分裂
             var split1 = gameObject.name.Split("_")[0];
             var split2 = gameObject.name.Split("_")[1];
@@ -142,12 +140,17 @@ namespace Game
             {
                 var spBall = int.Parse(split2) + 1;
                 Split(split1 + "_" + spBall);
+                string pathHitEffect = "Prefabs/Effects/HitParticle";
+                HitEffect(pathHitEffect);
+
             }
             else
             {
 
                 CatGameManager.Instance.UpdateScore();
                 Destroy(gameObject);
+                var pathDestroyEffect = "Prefabs/Effects/DestroyParticle";
+                HitEffect(pathDestroyEffect);
             }
             // 禁用 OnMouseDown 以避免无限递归
             enabled = false;
