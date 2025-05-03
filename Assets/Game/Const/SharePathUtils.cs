@@ -18,6 +18,8 @@ namespace Game
                     return "Function/Prefab/skin/fish";
                 case CatPointType.PointType.DIAN:
                     return "Function/Prefab/skin/dian";
+                case CatPointType.PointType.BALL:
+                    return "Function/Prefab/skin/ball";
                 default:
                     return "No Skin";
             }

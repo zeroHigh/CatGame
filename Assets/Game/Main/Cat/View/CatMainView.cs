@@ -16,7 +16,7 @@ namespace Game
         private Button _buttonHome;
         private Button _buttonStart;
         private Transform _content;
-        private GameObject _ball;
+        private int _ballIndex;
 
 
         protected override void ParseComponent()
@@ -26,13 +26,30 @@ namespace Game
             _textScore = Find<Text>("root/score");
             _buttonStart = Find<Button>("root/content/tapStart");
             _content = Find("root/content").transform;
-            _ball = Find("root/content/ball");
-            _ball.SetActive(false);
         }
 
         protected override void Refresh(params object[] arg)
         {
 
+        }
+
+        public void PutNewBall()
+        {
+            CreateBall(CatPointType.PointType.BALL, _content);
+        }
+
+        private void CreateBall(CatPointType.PointType type, Transform parent)
+        {
+            _ballIndex++;
+            var path = SharePathUtils.GetSkinPath(type);
+            var pointObj = ResourceLoader.Instance.CatLoadPrefab(path);
+            pointObj.name = _ballIndex + "_0";
+            var catPoint = pointObj.transform.GetComponent<RectTransform>();
+            catPoint.SetParent(parent, false);
+            catPoint.anchoredPosition = new Vector3(100f, 200f);
+            catPoint.localEulerAngles = Vector3.zero;
+            catPoint.localScale = Vector3.one;
+            CatGameManager.Instance.LastBallNum += 8;
         }
 
         public void UpdateScore(int score)
@@ -44,7 +61,7 @@ namespace Game
         {
             PlayCommonAudio(SharePathUtils.Audio.BtnClick);
             _buttonStart.gameObject.SetActive(false);
-            _ball.SetActive(true);
+            CreateBall(CatPointType.PointType.BALL, _content);
             CatGameManager.Instance.StartGame(this);
         }
 

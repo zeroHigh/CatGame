@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -48,6 +49,12 @@ namespace Game
         {
             _score++;
             _catMainView?.UpdateScore(_score);
+
+            LastBallNum--; //场上剩余的球数量
+            if (LastBallNum < MinBallCount)
+            {
+                CreateNewBall();
+            }
         }
 
         //开启计时器
@@ -56,8 +63,8 @@ namespace Game
             _isGameRunning = true;
             _score = 0;
             _catMainView = mainView;
-            // _timerCoroutine = GameStart.Instance.StartCoroutine(RepeatCoroutineTimer());
         }
+
 
         //游戏结束
         public void ExitGame()
@@ -82,22 +89,19 @@ namespace Game
             }
         }
 
-        public bool IsInitBall = true;
-        public void UpdateBallStatus(bool value)
+        public bool IsNeedCreateBall = true;
+        public const int BALL_LEVEL = 3; //小球是否需要重新创建条件
+
+        /// <summary>
+        /// 创建新的小球
+        /// </summary>
+        private void CreateNewBall()
         {
-            IsInitBall = value;
+            IsNeedCreateBall = true;
+            _catMainView.PutNewBall();
         }
 
-
-        private int _splitCount;
-        public void UpdateSplitCount()
-        {
-            _splitCount++;
-        }
-
-        public int GetSplitCount()
-        {
-            return _splitCount;
-        }
+        public int LastBallNum;
+        private const int MinBallCount = 4; //最少场上的球数量
     }
 }

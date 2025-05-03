@@ -19,7 +19,7 @@ namespace Game
         private Rigidbody2D rb;
         private float lastGroundHitTime;
         private Vector2 lastGroundNormal;
-        private const int MaxSplitCount = 4; // 最大分裂次数
+        private const int MaxSplitCount = 3; // 最大分裂次数
         private Transform ballParent;
 
         void Start()
@@ -33,8 +33,10 @@ namespace Game
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             // 初始斜向速度
-            if (CatGameManager.Instance.IsInitBall)
+            if (CatGameManager.Instance.IsNeedCreateBall)
             {
+                CatGameManager.Instance.IsNeedCreateBall = false;
+
                 rb.velocity = new Vector2(
                     baseHorizontalSpeed,
                     Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y * gravityScale) * minBounceHeight)
@@ -45,7 +47,7 @@ namespace Game
             gameObject.layer = LayerMask.NameToLayer("BallLayer");
 
             //获取第一个小球父节点
-            ballParent = transform.parent.parent;
+            ballParent = transform.parent;
         }
 
         public float speed = 90f; // 度/秒
@@ -130,19 +132,20 @@ namespace Game
 
         void OnMouseDown()
         {
-            if (int.Parse(gameObject.name) < MaxSplitCount)
+            //点击粒子相关
+            var pathDestroyEffect = "Prefabs/Effects/DestroyParticle";
+            HitEffect(pathDestroyEffect);
+            // 分裂
+            var split1 = gameObject.name.Split("_")[0];
+            var split2 = gameObject.name.Split("_")[1];
+            if (int.Parse(split2) < MaxSplitCount)
             {
-                CatGameManager.Instance.UpdateBallStatus(false);
-                CatGameManager.Instance.UpdateSplitCount();
-
-                string pathHitEffect = "Prefabs/Effects/HitParticle";
-                HitEffect(pathHitEffect);
-                Split();
+                var spBall = int.Parse(split2) + 1;
+                Split(split1 + "_" + spBall);
             }
             else
             {
-                string pathDestroyEffect = "Prefabs/Effects/DestroyParticle";
-                HitEffect(pathDestroyEffect);
+
                 CatGameManager.Instance.UpdateScore();
                 Destroy(gameObject);
             }
@@ -150,7 +153,7 @@ namespace Game
             enabled = false;
         }
 
-        private void Split()
+        private void Split(string newBallName)
         {
             // 获取点击位置
             Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -166,8 +169,8 @@ namespace Game
                 return;
             }
 
-            newBall1.name = CatGameManager.Instance.GetSplitCount().ToString();
-            newBall2.name = CatGameManager.Instance.GetSplitCount().ToString();
+            newBall1.name = newBallName;
+            newBall2.name = newBallName;
             // 设置父节点
             newBall1.transform.parent = ballParent;
             newBall2.transform.parent = ballParent;
@@ -181,14 +184,11 @@ namespace Game
             var rb2 = newBall2.GetComponent<Rigidbody2D>();
 
             // 设置新的小球的位置
-            var upwardForce = 0.8f; // 可以根据需要调整这个值
+            var upwardForce = 0.4f; // 可以根据需要调整这个值
             var horizontalForce = 5f; // 独立控制水平方向力
 
             upwardForce *= Random.Range(0.5f, 1.2f);
             horizontalForce *= Random.Range(0.5f, 1.2f);
-
-            newBall1.transform.position = clickPosition + Vector2.left;
-            newBall2.transform.position = clickPosition + Vector2.right;
 
             rb1.AddForce(new Vector2(-horizontalForce, upwardForce), ForceMode2D.Impulse);
             rb2.AddForce(new Vector2(horizontalForce, upwardForce), ForceMode2D.Impulse);
