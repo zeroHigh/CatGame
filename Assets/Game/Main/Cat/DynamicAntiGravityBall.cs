@@ -14,8 +14,8 @@ namespace Game
 
         [Header("高级设置")]
         public float energyConservation = 1f; // 能量守恒系数(0-1)
-        public float velocityDeadZone = 0.1f;    // 速度死区阈值
-        public float wallBounceForce = 1f;
+        public float velocityDeadZone = 0.5f;    // 速度死区阈值
+        public float wallBounceForce = 5f;
 
         private Rigidbody2D rb;
         private float lastGroundHitTime;
@@ -86,7 +86,10 @@ namespace Game
                 {
                     // 处理墙面碰撞
                     Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
-                    rb.velocity = reflectedVelocity;
+                    // 不直接设置 velocity，而是通过 AddForce 增强反弹
+                    rb.velocity = rb.velocity.magnitude * reflectedVelocity.normalized; // 保留方向，归一化速度
+                    rb.AddForce(-normal * wallBounceForce * 2, ForceMode2D.Impulse);
+
                 }
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("BallLayer"))
