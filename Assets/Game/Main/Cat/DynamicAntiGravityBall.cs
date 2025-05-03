@@ -13,8 +13,9 @@ namespace Game
         public float maxBounceHeight = 6f;       // 最大弹跳高度
 
         [Header("高级设置")]
-        public float energyConservation = 0.95f; // 能量守恒系数(0-1)
+        public float energyConservation = 1f; // 能量守恒系数(0-1)
         public float velocityDeadZone = 0.1f;    // 速度死区阈值
+        public float wallBounceForce = 1f;
 
         private Rigidbody2D rb;
         private float lastGroundHitTime;
@@ -84,7 +85,8 @@ namespace Game
                 else
                 {
                     // 处理墙面碰撞
-                    rb.velocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
+                    Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
+                    rb.velocity = reflectedVelocity;
                 }
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("BallLayer"))
