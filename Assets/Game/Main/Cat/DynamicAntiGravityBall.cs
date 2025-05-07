@@ -137,21 +137,22 @@ namespace Game
 
         void OnMouseDown()
         {
-
             // 分裂
             var split1 = gameObject.name.Split("_")[0];
             var split2 = gameObject.name.Split("_")[1];
             if (int.Parse(split2) < MaxSplitCount)
             {
+                var path = SharePathUtils.Audio.GetAudioPath(SharePathUtils.Audio.AudioStart);
+                AudioManager.Instance.Play(path);
                 var spBall = int.Parse(split2) + 1;
                 Split(split1 + "_" + spBall);
                 string pathHitEffect = "Prefabs/Effects/HitParticle";
                 HitEffect(pathHitEffect);
-
             }
             else
             {
-
+                var path = SharePathUtils.Audio.GetAudioPath(SharePathUtils.Audio.AudioDestroy);
+                AudioManager.Instance.Play(path);
                 CatGameManager.Instance.UpdateScore();
                 Destroy(gameObject);
                 var pathDestroyEffect = "Prefabs/Effects/DestroyParticle";

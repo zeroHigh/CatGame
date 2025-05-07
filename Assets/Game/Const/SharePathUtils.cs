@@ -31,6 +31,7 @@ namespace Game
             public const string AudioEnd = "end";
             public const string AudioMiss = "miss";
             public const string AudioStart = "start";
+            public const string AudioDestroy = "destroy";
 
             public static string GetAudioPath(string audioName)
             {
