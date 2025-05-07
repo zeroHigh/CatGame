@@ -84,11 +84,11 @@ namespace Game
                 }
                 else
                 {
-                    // 处理墙面碰撞
-                    Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
+                    // 处理墙面碰撞 不额外施加力
+                    // Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity.normalized, normal) * rb.velocity.magnitude * energyConservation;
                     // 不直接设置 velocity，而是通过 AddForce 增强反弹
-                    rb.velocity = rb.velocity.magnitude * reflectedVelocity.normalized; // 保留方向，归一化速度
-                    rb.AddForce(-normal * wallBounceForce * 2, ForceMode2D.Impulse);
+                    // rb.velocity = rb.velocity.magnitude * reflectedVelocity.normalized; // 保留方向，归一化速度
+                    // rb.AddForce(-normal * wallBounceForce * 2, ForceMode2D.Impulse);
 
                 }
             }
